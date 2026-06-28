@@ -1,0 +1,13 @@
+Path Traversal
+--------------
+Path Traversal is a vulnerability where attacker-controlled input is used to build a file path without proper validation.
+This can allow access to files outside the intended directory, potentially exposing configuration files, secrets, or system data.
+
+It often appears in file download features, image retrieval endpoints, template loaders, archive extractors, and any code that maps user input to a file on disk.
+The damage depends on which directories are reachable and what sensitive files are stored on the host.
+
+Common causes include direct concatenation of file names, weak normalization, and missing path allowlists.
+Defenses include strict allowlisting, canonical path checks, storing files outside web roots, and refusing path separators in user input when possible.
+
+Testing should verify that the application cannot escape the intended directory through relative path sequences or encoded variants.
+Review whether the application resolves the final path before access and rejects any path that leaves the allowed base directory.

@@ -1,0 +1,12 @@
+Burp Suite
+----------
+Burp Suite is a web security testing platform used to inspect, modify, and replay HTTP requests and responses.
+It is commonly used to analyze authentication, session handling, input validation, and access control issues.
+
+The tool is especially helpful for understanding how the application behaves when headers, parameters, cookies, or JSON bodies are changed.
+That makes it useful during manual verification of XSS, CSRF, IDOR, SSRF, and other web risks.
+
+Typical capabilities include an intercepting proxy, repeater, intruder-style request testing, and scanning features in some editions.
+When using Burp Suite for assessments, keep testing within authorized scope and capture evidence such as affected endpoints, request examples, and impact.
+
+In training notes, include what request was captured, what changed, and how the application responded so the context is easy to reproduce.

@@ -1,0 +1,13 @@
+Authorization
+-------------
+Authorization determines what an authenticated user is allowed to do.
+A system may authenticate users correctly but still fail if permissions are not checked consistently for each action or object.
+
+This is the control that enforces business rules such as who can view, edit, approve, delete, or export data.
+Authorization should be checked on the server for every sensitive request, not just hidden behind the user interface.
+
+Common approaches include role-based access control, attribute-based checks, and explicit server-side permission validation.
+Good implementations verify the user, the object, the action, and any tenant or ownership constraint before continuing.
+
+Testing should verify that users cannot access higher-privileged functions, other users' records, or administrative APIs simply by changing requests.
+Pay attention to direct API calls, workflow shortcuts, and endpoints that are missing checks because they were added later.

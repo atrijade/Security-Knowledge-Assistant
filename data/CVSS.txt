@@ -1,0 +1,12 @@
+CVSS (Common Vulnerability Scoring System)
+-----------------------------------------
+CVSS is a standard for describing the severity of software vulnerabilities.
+It produces a numerical score based on exploitability and impact, which helps teams prioritize remediation.
+
+The score is best used as a prioritization aid, not as the only decision factor.
+Two vulnerabilities with the same CVSS score can have different real-world risk depending on exposure, data sensitivity, compensating controls, and business context.
+
+CVSS is often used with base, temporal, and environmental metrics.
+When documenting a vulnerability, record the relevant vector string, explain why the score was chosen, and note any environmental factors that raise or lower risk.
+
+Training material should explain the meaning of the metrics clearly so readers can understand how the final score was derived.

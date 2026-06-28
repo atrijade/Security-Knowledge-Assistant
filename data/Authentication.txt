@@ -1,0 +1,13 @@
+Authentication
+--------------
+Authentication is the process of verifying a user's identity.
+A secure authentication system should resist guessing, credential stuffing, phishing, session hijacking, and brute-force attacks.
+
+It includes password login, multi-factor authentication, password reset, account recovery, session creation, and session expiration.
+Weaknesses in any of these areas can let an attacker impersonate a user even if the main login page looks secure.
+
+Good practices include strong password storage, multi-factor authentication, secure password reset flows, rate limiting, and safe session management.
+Authentication logic should also handle lockouts, recovery codes, and logout behavior carefully.
+
+Testing should confirm that invalid credentials are rejected, sessions expire correctly, and sensitive endpoints require re-authentication when needed.
+Review whether error messages, rate limits, and reset links reveal information that helps enumeration or account takeover.

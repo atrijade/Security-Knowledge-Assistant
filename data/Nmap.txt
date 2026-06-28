@@ -1,0 +1,10 @@
+Nmap
+----
+Nmap is a network exploration and security auditing tool used to discover hosts, services, and ports.
+It helps defenders understand what is exposed on a network and supports service detection, host discovery, and basic script-based checks.
+
+In security work, Nmap is commonly used during asset inventory, attack surface review, and validation of firewall rules.
+It is useful for confirming whether a service is reachable, what protocol it speaks, and whether common defenses are in place.
+
+When documenting findings, record the scan scope, timing, and the services discovered so results can be reproduced safely and ethically.
+Training data should explain that Nmap is a diagnostic and assessment tool, not a vulnerability by itself.

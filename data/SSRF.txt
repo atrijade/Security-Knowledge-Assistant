@@ -1,0 +1,13 @@
+SSRF (Server-Side Request Forgery)
+----------------------------------
+Server-Side Request Forgery is a vulnerability where an application is tricked into making requests to internal or external resources chosen by the attacker.
+This can expose internal services, metadata endpoints, or network-only systems that should not be reachable from the public internet.
+
+SSRF often appears in URL preview features, webhook handlers, import tools, image fetchers, and any feature that retrieves remote content on behalf of a user.
+The risk is especially high when the server can reach internal systems that are not directly exposed to the attacker.
+
+Common causes include user-controlled URLs, weak allowlists, and missing network egress controls.
+Defenses include strict URL allowlisting, blocking access to internal IP ranges, using separate network zones, and avoiding direct fetches from untrusted input.
+
+Testing should verify how the application handles redirects, IP-literal hosts, unusual schemes, and DNS resolution behavior.
+Review whether the application validates both the hostname and the resolved destination before making the request.

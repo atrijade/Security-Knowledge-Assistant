@@ -1,0 +1,12 @@
+OWASP Top 10
+------------
+The OWASP Top 10 is a widely used awareness document that summarizes common and important web application security risks.
+It helps teams focus on categories such as access control failures, injection flaws, cryptographic issues, and security misconfiguration.
+
+The list is not exhaustive, but it is useful for training, code review, and security testing.
+It works well as a framework for organizing findings because it connects a specific weakness to a broader class of risk.
+
+When using it as training data, map each finding or example to the relevant risk category and describe the defensive controls that reduce the issue.
+Good notes should explain the risk, the likely impact, and the concrete mitigation in plain language.
+
+That makes the content easier to use later during retrieval, search, and question answering.

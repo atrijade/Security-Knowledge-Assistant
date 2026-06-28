@@ -1,0 +1,13 @@
+Cross-Site Scripting (XSS)
+--------------------------
+Cross-Site Scripting occurs when an application includes untrusted content in a web page without proper encoding or sanitization.
+An attacker may cause malicious script to run in another user's browser, which can lead to session theft, data theft, or unwanted actions.
+
+This risk appears in comments, profile fields, search results, admin dashboards, and any page that reflects user-controlled content back into the browser.
+The severity depends on what the script can access, whether the session is protected, and whether the application uses strong browser-side defenses.
+
+Common types include stored XSS, reflected XSS, and DOM-based XSS.
+Defenses include context-aware output encoding, input validation, safe templating, Content Security Policy, and avoiding dangerous DOM APIs.
+
+When assessing a page, check HTML, attribute, JavaScript, CSS, and URL contexts separately because each requires a different escaping strategy.
+Testing should check whether user-controlled data is safely escaped in HTML, attributes, script blocks, and URLs.

@@ -1,0 +1,13 @@
+SQL Injection (SQLi)
+--------------------
+SQL Injection is a vulnerability where untrusted input is combined with a database query in a way that changes the query's meaning.
+If an application does not properly validate or parameterize input, an attacker may be able to read, modify, or delete data.
+
+This issue is often found in login forms, search boxes, filters, and API parameters that are passed directly into SQL statements.
+The impact can include account takeover, unauthorized data access, data corruption, and in some cases deeper compromise of the underlying system.
+
+Common causes include string concatenation in SQL statements, weak input validation, and missing prepared statements.
+Typical defenses are parameterized queries, stored procedures when used correctly, least-privilege database accounts, and strong server-side validation.
+
+During review, check every place where user input influences database queries, including ORMs, query builders, and legacy code.
+Security testing should verify that user-controlled fields do not alter query structure and that errors do not reveal database details.

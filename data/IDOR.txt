@@ -1,0 +1,13 @@
+IDOR (Insecure Direct Object Reference)
+--------------------------------------
+IDOR happens when an application exposes direct references to objects such as records, files, or account IDs and fails to check whether the current user is allowed to access them.
+An attacker can sometimes change an identifier and view or modify another user's data.
+
+This weakness is common in APIs, download links, profile pages, document viewers, and order or ticket systems that rely on predictable IDs.
+The core issue is missing object-level authorization, not just weak identifiers.
+
+Defenses include per-object authorization checks, indirect references where appropriate, and avoiding reliance on hidden IDs as the only control.
+Server-side checks should confirm ownership, role, tenancy, and intended action before returning or changing any object.
+
+Security testing should verify access control on every object access path, including APIs, downloads, and admin functions.
+Try both horizontal access checks, where one user accesses another user's object, and vertical access checks, where a lower-privileged user reaches restricted data.

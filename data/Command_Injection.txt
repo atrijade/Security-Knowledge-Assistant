@@ -1,0 +1,13 @@
+Command Injection
+------------------
+Command Injection occurs when an application builds operating system commands using untrusted input.
+If the input changes the command structure, an attacker may be able to run arbitrary system commands with the application's privileges.
+
+This issue commonly appears in wrappers around ping, traceroute, archive tools, file conversion utilities, and maintenance scripts exposed through a web or desktop interface.
+Even small mistakes in quoting or argument handling can turn a harmless parameter into a command execution path.
+
+Defenses include avoiding shell execution, using safe library calls, escaping or quoting arguments correctly, and applying least privilege to the process account.
+If a shell is unavoidable, keep the command fixed and pass only validated arguments.
+
+Security review should focus on features that call backup tools, image converters, network utilities, or other system commands based on user input.
+Testing should verify that separators, metacharacters, and unexpected argument formats do not alter execution behavior.

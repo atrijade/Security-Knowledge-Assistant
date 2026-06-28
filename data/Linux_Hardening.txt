@@ -1,0 +1,13 @@
+Linux Hardening
+---------------
+Linux hardening is the practice of reducing attack surface and improving system resilience on Linux hosts.
+It includes securing accounts, services, network exposure, file permissions, logging, and patch management.
+
+Hardening typically starts with the operating system baseline and then extends to service configuration, privilege management, and monitoring.
+The goal is to remove unnecessary risk while keeping the system usable for its intended purpose.
+
+Common hardening measures include removing unnecessary packages, using strong authentication, applying least privilege, enabling a firewall, disabling unused services, and keeping the system updated.
+Additional controls may include secure SSH settings, restrictive file permissions, audit logging, and kernel or service-specific security options.
+
+Security documentation should note the baseline configuration, any deviations, and the controls used to protect sensitive data and services.
+Training notes should distinguish between preventive controls, detective controls, and operational practices such as patching and backup review.

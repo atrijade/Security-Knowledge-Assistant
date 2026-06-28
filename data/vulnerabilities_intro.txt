@@ -1,0 +1,13 @@
+Vulnerability Management Overview
+---------------------------------
+Vulnerability management is the "cyclical practice of identifying, classifying, prioritizing, remediating, and mitigating" software vulnerabilities.
+It is an essential component of computer security and network security.
+
+Common Vulnerabilities and Exposures (CVE)
+------------------------------------------
+The Common Vulnerabilities and Exposures (CVE) system provides a reference-method for publicly known information-security vulnerabilities and exposures.
+
+SQL Injection (SQLi)
+--------------------
+SQL Injection (SQLi) is a common vulnerability type where an attacker interferes with the queries an application makes to its database.
+It generally allows an attacker to view data that they are not normally able to retrieve, or execute arbitrary database commands.

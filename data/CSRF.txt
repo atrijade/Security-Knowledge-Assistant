@@ -1,0 +1,13 @@
+CSRF (Cross-Site Request Forgery)
+---------------------------------
+Cross-Site Request Forgery is an attack where a malicious site causes a victim's browser to send an unintended request to another site where the victim is authenticated.
+If the target site relies only on cookies for authentication and does not verify request origin or intent, state-changing actions may be triggered without the user's approval.
+
+This issue matters most on actions that change state, such as updating email addresses, changing passwords, adding payment methods, or modifying user roles.
+It is less relevant for read-only requests, but any endpoint that performs an action should be reviewed carefully.
+
+Defenses include anti-CSRF tokens, SameSite cookies, checking the Origin or Referer header, and requiring re-authentication for sensitive actions.
+Where possible, use request methods and API designs that make unintended browser submission harder.
+
+Security review should focus on any endpoint that changes account settings, transfers funds, or performs administrative actions.
+Testing should verify that requests without valid anti-CSRF protections are rejected consistently.
