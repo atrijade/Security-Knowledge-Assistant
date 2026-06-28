@@ -8,6 +8,7 @@ function App() {
   const [sources, setSources] = useState([]);
   const [activeCardIndex, setActiveCardIndex] = useState(null);
   const [error, setError] = useState(null);
+  const [copiedIndex, setCopiedIndex] = useState(null);
   
   const messagesEndRef = useRef(null);
 
@@ -57,7 +58,7 @@ function App() {
 
     } catch (err) {
       console.error(err);
-      setError(err.message || 'An error occurred while connecting to the backend.');
+      setError(err.message || 'An error occurred while connecting to the RAG backend.');
       setMessages((prev) => [
         ...prev,
         { 
@@ -70,6 +71,80 @@ function App() {
     }
   };
 
+  const handleClearChat = () => {
+    setMessages([]);
+    setSources([]);
+    setActiveCardIndex(null);
+    setError(null);
+  };
+
+  const copyToClipboard = (text, index) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  // Custom Inline Markdown Parser (handles **bold** and `code`)
+  const parseInline = (text) => {
+    const regex = /(\*\*.*?\*\*|`.*?`)/g;
+    const parts = text.split(regex);
+    
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={i}>{part.slice(2, -2)}</strong>;
+      }
+      if (part.startsWith('`') && part.endsWith('`')) {
+        return <code key={i} className="inline-code">{part.slice(1, -1)}</code>;
+      }
+      return part;
+    });
+  };
+
+  // Custom block-level Markdown Parser (handles headers, lists, code blocks)
+  const renderMarkdown = (text) => {
+    if (!text) return '';
+    
+    const parts = text.split(/(```[\s\S]*?```)/g);
+    
+    return parts.map((part, index) => {
+      if (part.startsWith('```')) {
+        const lines = part.slice(3, -3).trim().split('\n');
+        let language = '';
+        if (lines[0] && !lines[0].includes(' ') && lines[0].length < 15) {
+          language = lines.shift();
+        }
+        const code = lines.join('\n');
+        return (
+          <pre key={index} className="code-block-container">
+            {language && <div className="code-block-lang">{language}</div>}
+            <code className="code-block">{code}</code>
+          </pre>
+        );
+      } else {
+        const lines = part.split('\n');
+        return lines.map((line, lIdx) => {
+          const trimmed = line.trim();
+          if (trimmed.startsWith('### ')) {
+            return <h4 key={lIdx} className="md-h4">{parseInline(trimmed.slice(4))}</h4>;
+          }
+          if (trimmed.startsWith('## ')) {
+            return <h3 key={lIdx} className="md-h3">{parseInline(trimmed.slice(3))}</h3>;
+          }
+          if (trimmed.startsWith('# ')) {
+            return <h2 key={lIdx} className="md-h2">{parseInline(trimmed.slice(2))}</h2>;
+          }
+          if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+            return <li key={lIdx} className="md-li">{parseInline(trimmed.slice(2))}</li>;
+          }
+          if (trimmed === '') {
+            return <div key={lIdx} className="md-spacing" />;
+          }
+          return <p key={lIdx} className="md-p">{parseInline(line)}</p>;
+        });
+      }
+    });
+  };
+
   return (
     <div className="app-container">
       {/* Header */}
@@ -78,9 +153,16 @@ function App() {
           <div className="logo-icon">VM</div>
           <h1>Vulnerability RAG Assistant</h1>
         </div>
-        <div className="system-status">
-          <div className="status-dot"></div>
-          <span>Active</span>
+        <div className="header-actions">
+          {messages.length > 0 && (
+            <button className="clear-btn" onClick={handleClearChat}>
+              🧹 Clear Chat
+            </button>
+          )}
+          <div className="system-status">
+            <div className="status-dot"></div>
+            <span>Active</span>
+          </div>
         </div>
       </header>
 
@@ -92,8 +174,19 @@ function App() {
             {messages.length === 0 ? (
               <div className="empty-state animate-fade-in">
                 <div className="empty-icon">🛡️</div>
-                <h3>Secure RAG Console</h3>
-                <p>Submit questions about cybersecurity vulnerabilities or database details. The assistant will answer using vector knowledge bases.</p>
+                <h3>Secure RAG Command Console</h3>
+                <p>Submit questions about CVEs, hardening guidelines, or security metrics. The system will retrieve matching vector contexts and synthesize an answer.</p>
+                <div className="suggested-queries">
+                  <div className="suggestion" onClick={() => setQuery("What is SQL Injection?")}>
+                    "What is SQL Injection?"
+                  </div>
+                  <div className="suggestion" onClick={() => setQuery("Explain Command Injection defenses")}>
+                    "Explain Command Injection defenses"
+                  </div>
+                  <div className="suggestion" onClick={() => setQuery("What are the key statistics from the 2025 DBIR?")}>
+                    "What are the statistics in the 2025 DBIR?"
+                  </div>
+                </div>
               </div>
             ) : (
               messages.map((msg, idx) => {
@@ -103,7 +196,19 @@ function App() {
                     <div className="message-meta">
                       {msg.sender === 'user' ? 'You' : 'Gemini'}
                     </div>
-                    <div className={`message-bubble ${isError ? 'error-bubble' : ''}`}>{msg.text}</div>
+                    <div className={`message-bubble ${isError ? 'error-bubble' : ''}`}>
+                      {msg.sender === 'assistant' ? renderMarkdown(msg.text) : msg.text}
+                      
+                      {msg.sender === 'assistant' && !isError && (
+                        <button 
+                          className="copy-btn" 
+                          onClick={() => copyToClipboard(msg.text, idx)}
+                          title="Copy Answer"
+                        >
+                          {copiedIndex === idx ? '✓ Copied' : '🗎 Copy'}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 );
               })
@@ -124,7 +229,7 @@ function App() {
             <form onSubmit={handleSend} className="input-container">
               <input
                 type="text"
-                placeholder="Ask about vulnerabilities (e.g. What is SQL Injection?)..."
+                placeholder="Ask about cybersecurity vulnerabilities..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 disabled={loading}
@@ -144,7 +249,7 @@ function App() {
         <aside className="sidebar">
           <div className="sidebar-header">
             <h2>Retrieved Knowledge</h2>
-            <p>Database chunks supporting the response</p>
+            <p>Database chunks supporting the active response</p>
           </div>
 
           <div className="sources-list">
